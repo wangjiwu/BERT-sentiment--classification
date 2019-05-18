@@ -972,53 +972,53 @@ def main(_):
         num_written_lines += 1
     assert num_written_lines == num_actual_predict_examples
 
+
 class EmloProcessor(DataProcessor):
-  """Processor for the WeiBo data set ."""
+    """Processor for the Emotion data set ."""
 
-  def _read_csv(cls, input_file, quotechar=None):
-    """Reads a tab separated value file."""
-    with tf.gfile.Open(input_file, "r") as f:
-      reader = csv.reader(f, delimiter=",", quotechar=quotechar)
-      lines = []
-      for line in reader:
-        lines.append(line)
-      return lines
+    def get_train_examples(self, data_dir):
+        """定义开发集的数据是什么，data_dir会作为参数传进去， 这里就是加上你的文件名即可 """
+        return self._create_examples(
+            self._read_tsv(os.path.join(data_dir, "train.tsv"), ), "train")
 
-  def get_train_examples(self, data_dir):
-    """See base class."""
-    return self._create_examples(
-        self._read_csv(os.path.join(data_dir, "train.csv"), ), "train")
+    def get_dev_examples(self, data_dir):
+        """定义开发集的数据是什么，data_dir会作为参数传进去，模型训练的时候会用到，这里就是加上你的文件名即可 """
+        return self._create_examples(
+            self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
 
-  def get_dev_examples(self, data_dir):
-    """See base class."""
-    return self._create_examples(
-        self._read_csv(os.path.join(data_dir, "dev.csv")), "dev")
+    def get_test_examples(self, data_dir):
+        """定义测试集的数据是什么， 用于预测数据 ，在训练时没有用到这个函数， 这里写预测的数据集"""
+        return self._create_examples(
+            self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
 
-  def get_test_examples(self, data_dir):
-    """See base class."""
-    return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "test.csv")), "test")
+    def get_labels(self):
+        """ 这里是显示你一共有几个分类标签， 在此任务中我有3个标签，如实写上  标签值和 csv里面存的值相同 """
+        return ["positive", "negative","neutral"]
 
-  def get_labels(self):
-    """See base class."""
-    return ["neutral", "positive", "negative"]
+    def _create_examples(self, lines, set_type):
+        """这个函数是用来把数据处理， 把每一个例子分成3个部分，填入到InputExample的3个参数
+        text_a 是 第一个句子的文本
+        text_b 是 第二个句子的文本 但是由于此任务是单句分类， 所以 这里传入为None
+        guid 是一个二元组  第一个表示此数据是什么数据集类型（train dev test） 第二个表示数据标号
+        label 表示句子类别
+        """
+        examples = []
+        for (i, line) in enumerate(lines):
 
-  def _create_examples(self, lines, set_type):
-    """Creates examples for the training and dev sets."""
-    examples = []
-    for (i, line) in enumerate(lines):
-      # All sets have a header
-      if i == 0: continue
-      guid = "%s-%s" % (set_type, i)
-      #print(line, i)
-      text_a = tokenization.convert_to_unicode(line[1])
+            guid = "%s-%s" % (set_type, i)
+            #print(line, i)
+            # 获取text  第三列和第四列分别是 类别  文本 所以分情况添加
+            text_a = tokenization.convert_to_unicode(line[3])
+            if set_type == "test":
+                #测试集的label 是要预测的 所以我们暂时先随便填一个类别即可 这里我选择都是neutral类
+                label = "neutral"
+            else:
+                label = tokenization.convert_to_unicode(line[2])
 
-      label = tokenization.convert_to_unicode(line[0])
-      examples.append(
-          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
-    return examples
-
-
+            # 加入样本
+            examples.append(
+                InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+        return examples
 
 if __name__ == "__main__":
   flags.mark_flag_as_required("data_dir")
