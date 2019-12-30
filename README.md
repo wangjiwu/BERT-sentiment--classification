@@ -201,7 +201,7 @@ python run_classifier.py
   --data_dir=./glue 
   --vocab_file=./uncased/uncased_L-12_H-768_A-12/vocab.txt 
   --bert_config_file=./uncased/uncased_L-12_H-768_A-12/bert_config.json 
-  --init_checkpoint=./uncased/uncased_L-12_H-768_A-12/bert_model.ckpt
+  --init_checkpoint=./tmp/emotion/bert_model.ckpt
   --max_seq_length=128 
   --output_dir=./tmp/emotion_out/
 ```
