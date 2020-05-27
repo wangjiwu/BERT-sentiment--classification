@@ -29,7 +29,7 @@ https://github.com/google-research/bert.git
 下载地址如下： [BERT-Base, Uncased下载地址](https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip)
 其他的可以在仓库的readme里找到相应的下载地址
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190517011805279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxODc0NDU1OTUz,size_16,color_FFFFFF,t_70) 
-然后随便放到一个地方，这里我放到了新建的uncased文件夹里， 路径不一样，模型运行参数会有一点点变化
+然后随便放到一个地方，**这里放到了uncased文件夹里**， 路径不一样，模型运行参数会有一点点变化
 ### 1.2.2数据集
 数据集介绍如下：
 
@@ -200,7 +200,7 @@ python run_classifier.py
   --data_dir=./glue 
   --vocab_file=./uncased/uncased_L-12_H-768_A-12/vocab.txt 
   --bert_config_file=./uncased/uncased_L-12_H-768_A-12/bert_config.json 
-  --init_checkpoint=./tmp/emotion/bert_model.ckpt
+  --init_checkpoint=./tmp/emotion/
   --max_seq_length=128 
   --output_dir=./tmp/emotion_out/
 ```
@@ -296,5 +296,3 @@ TensorFlow 1.11.0:
 特意直接开放源码， 供大家参考
 
 https://github.com/wangjiwu/BERT-emotion-classification
-
-
