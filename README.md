@@ -10,6 +10,17 @@ google 在**2018年放出的大杀器**， 作为当前NLP的最新技术，此�
 tensorflow >= 1.11.0   # CPU Version of TensorFlow.
 tensorflow-gpu  >= 1.11.0  # GPU version of TensorFlow.
 ```
+我自己的版本是
+```
+Python 3.6.8 (default, May  7 2019, 14:58:50) 
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import tensorflow as tf
+>>> tf.__version__
+'1.11.0'
+
+```
+
 
 ## 1.1. clone BERT 代码
 首先clone 官方代码，地址如下
