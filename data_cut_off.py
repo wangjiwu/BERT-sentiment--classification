@@ -18,4 +18,7 @@ if __name__ == '__main__':
 
 
     dev_set = pd_all.iloc[0:pd_all.shape[0]/10]
+    train_set = pd_all.iloc[pd_all.shape[0]/10, -1]
+    
     dev_set.to_csv("glue/dev.tsv", index=False, sep='\t')
+    train_set.to_csv("glue/train.tsv", index=False, sep='\t')
